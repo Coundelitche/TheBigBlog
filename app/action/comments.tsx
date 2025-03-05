@@ -19,6 +19,9 @@ export async function createComment({
       authorId,
       postId,
     },
+    include: {
+      author: true,
+    },
   });
 
   return comment;
@@ -32,6 +35,37 @@ export async function getComments(postId: string) {
     include: {
       author: true,
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
   return comments;
+}
+
+export async function deleteComment(commentId: string) {
+  const comment = await prisma.comment.delete({
+    where: {
+      id: commentId,
+    },
+  });
+  return comment;
+}
+
+export async function updateComment({
+  commentId,
+  content,
+}: {
+  commentId: string;
+  content: string;
+}) {
+  const comment = await prisma.comment.update({
+    where: {
+      id: commentId,
+    },
+    data: {
+      content,
+    },
+  });
+
+  return comment;
 }

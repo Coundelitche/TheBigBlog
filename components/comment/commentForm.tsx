@@ -5,21 +5,39 @@ import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
-export const CommentForm = ({ userId }: { userId: string }) => {
+interface Comment {
+  id: string;
+  createdAt: Date;
+  content: string;
+  updatedAt: Date;
+  author: {
+    id: string;
+    name: string;
+  };
+}
+
+export const CommentForm = ({
+  userId,
+  setComments,
+}: {
+  userId: string;
+  setComments: (comments: Comment[] | ((prev: Comment[]) => Comment[])) => void;
+}) => {
   const [content, setContent] = useState("");
-  const authorId = userId;
   const params = useParams();
-  const id = params.id as string;
+  const postId = params.id as string;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(content, authorId, id);
 
-    await createComment({
+    const newComment = await createComment({
       content,
-      authorId: authorId,
-      postId: id,
+      authorId: userId,
+      postId: postId,
     });
+
+    setComments((prev) => [...prev, newComment]);
+    setContent("");
   };
 
   return (
@@ -28,10 +46,15 @@ export const CommentForm = ({ userId }: { userId: string }) => {
         <Textarea
           name="content"
           placeholder="Comment"
+          value={content}
           onChange={(e) => setContent(e.target.value)}
           className="resize-none "
         />
-        <Button type="submit" className="w-1/4 self-end">
+        <Button
+          type="submit"
+          className="w-1/4 self-end disabled:opacity-50"
+          disabled={!content.trim()}
+        >
           Comment
         </Button>
       </form>

@@ -1,13 +1,10 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import { PostDisplayer } from "@/components/layout/postDisplayer";
+import { Hero } from "@/components/layout/hero";
 
-export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log(session);
-
+export default function Home() {
   return (
     <div>
+      <Hero />
       <PostDisplayer />
     </div>
   );
