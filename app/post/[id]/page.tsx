@@ -1,5 +1,4 @@
 import { getPostById } from "@/app/action/post";
-import { getServerSession } from "next-auth";
 import { CommentSection } from "@/components/comment/commentSection";
 import { PostCard } from "@/components/post/postCard";
 
