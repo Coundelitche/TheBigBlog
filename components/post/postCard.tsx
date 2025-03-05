@@ -6,7 +6,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { deletePost } from "@/app/action/post";
-import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { updatePost } from "@/app/action/post";
 import { CircleX, Pencil } from "lucide-react";
@@ -25,15 +25,10 @@ interface Post {
   };
 }
 
-export const PostCard = ({
-  post,
-  session,
-}: {
-  post: Post;
-  session: Session | null;
-}) => {
+export const PostCard = ({ post }: { post: Post }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [actualPost, setActualPost] = useState(post);
+  const { data: session } = useSession();
 
   const handleDelete = async (postId: string) => {
     await deletePost(postId);

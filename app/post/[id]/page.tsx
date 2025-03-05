@@ -8,7 +8,6 @@ export default async function PostPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const session = await getServerSession();
   const { id } = await params;
   const post = await getPostById(id);
   if (!post) {
@@ -17,11 +16,8 @@ export default async function PostPage({
 
   return (
     <div className="px-4 flex flex-col gap-4 my-4">
-      <PostCard post={post} session={session} />
-      <CommentSection
-        userId={session ? session.user.id : ""}
-        isAdmin={session?.user.isAdmin || false}
-      />
+      <PostCard post={post} />
+      <CommentSection />
     </div>
   );
 }
