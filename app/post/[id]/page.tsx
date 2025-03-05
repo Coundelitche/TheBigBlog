@@ -3,19 +3,10 @@ import { getServerSession } from "next-auth";
 import { CommentSection } from "@/components/comment/commentSection";
 import { PostCard } from "@/components/post/postCard";
 
-export default async function PostPage(
-  props: Promise<{
-    params: { id: string };
-    searchParams: { [key: string]: string | string[] | undefined };
-  }>
-) {
-  // On attend la résolution des props (params et searchParams)
-  const { params, searchParams: _searchParams } = await props;
-  void _searchParams;
+export default async function PostPage({ params }: { params: { id: string } }) {
   const session = await getServerSession();
-  const { id } = params;
+  const { id } = await params;
   const post = await getPostById(id);
-
   if (!post) {
     return <div>Post not found</div>;
   }
