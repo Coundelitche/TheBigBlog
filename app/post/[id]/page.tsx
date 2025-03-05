@@ -3,18 +3,17 @@ import { getServerSession } from "next-auth";
 import { CommentSection } from "@/components/comment/commentSection";
 import { PostCard } from "@/components/post/postCard";
 
-type PageProps = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
 export default async function PostPage({
   params,
-  searchParams: _searchParams,
-}: PageProps) {
-  void _searchParams; // Référence pour éviter l'erreur ESLint "unused variable"
+}: {
+  params: { id?: string | string[] };
+}) {
+  if (!params.id) return <div>Post not found</div>; // Vérification
+
+  const id = Array.isArray(params.id) ? params.id[0] : params.id; // Gérer le cas où c'est un tableau
+  if (!id) return <div>Invalid Post ID</div>; // Vérification supplémentaire
+
   const session = await getServerSession();
-  const { id } = params;
   const post = await getPostById(id);
 
   if (!post) {
