@@ -11,6 +11,7 @@ export default async function PostPage(
 ) {
   // On attend la résolution des props (params et searchParams)
   const { params, searchParams: _searchParams } = await props;
+  void _searchParams;
   const session = await getServerSession();
   const { id } = params;
   const post = await getPostById(id);
