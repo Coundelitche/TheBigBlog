@@ -3,7 +3,11 @@ import { getServerSession } from "next-auth";
 import { CommentSection } from "@/components/comment/commentSection";
 import { PostCard } from "@/components/post/postCard";
 
-export default async function PostPage({ params }) {
+type PageParams = {
+  id: string;
+};
+
+export default async function PostPage({ params }: { params: PageParams }) {
   const session = await getServerSession();
   const { id } = params;
   const post = await getPostById(id);
