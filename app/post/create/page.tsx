@@ -1,9 +1,8 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
 import { CreatePostForm } from "@/components/post/createPostForm";
 
 export default async function CreatePost() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession();
 
   if (!session?.user?.isAdmin) {
     return <div>You are not an admin</div>;

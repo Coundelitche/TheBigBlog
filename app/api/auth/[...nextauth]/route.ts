@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 import { AdapterUser } from "next-auth/adapters";
+import type { User, Session } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
