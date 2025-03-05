@@ -1,4 +1,4 @@
-import NextAuth, { AuthOptions, Session, User } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
@@ -24,7 +24,7 @@ declare module "next-auth" {
   }
 }
 
-export const authOptions: AuthOptions = {
+const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -86,7 +86,7 @@ export const authOptions: AuthOptions = {
         id: token.id as string,
         name: token.name,
         email: token.email,
-        image: session.user.image || null, // On garde `image` pour éviter les erreurs
+        image: session.user.image || null,
         isAdmin: token.isAdmin as boolean,
       };
       return session;
@@ -96,7 +96,6 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
