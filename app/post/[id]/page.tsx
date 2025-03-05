@@ -12,6 +12,7 @@ export default async function PostPage({
   params,
   searchParams: _searchParams,
 }: PageProps) {
+  void _searchParams; // Référence pour éviter l'erreur ESLint "unused variable"
   const session = await getServerSession();
   const { id } = params;
   const post = await getPostById(id);
