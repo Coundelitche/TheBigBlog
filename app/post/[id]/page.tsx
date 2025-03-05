@@ -8,7 +8,10 @@ type PageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default async function PostPage({ params, searchParams }: PageProps) {
+export default async function PostPage({
+  params,
+  searchParams: _searchParams,
+}: PageProps) {
   const session = await getServerSession();
   const { id } = params;
   const post = await getPostById(id);
