@@ -3,17 +3,16 @@ import { getServerSession } from "next-auth";
 import { CommentSection } from "@/components/comment/commentSection";
 import { PostCard } from "@/components/post/postCard";
 
-export default async function PostPage({
-  params,
-}: {
-  params: { id?: string | string[] };
-}) {
-  if (!params.id) return <div>Post not found</div>; // Vérification
-
-  const id = Array.isArray(params.id) ? params.id[0] : params.id; // Gérer le cas où c'est un tableau
-  if (!id) return <div>Invalid Post ID</div>; // Vérification supplémentaire
-
+export default async function PostPage(
+  props: Promise<{
+    params: { id: string };
+    searchParams: { [key: string]: string | string[] | undefined };
+  }>
+) {
+  // On attend la résolution des props (params et searchParams)
+  const { params, searchParams: _searchParams } = await props;
   const session = await getServerSession();
+  const { id } = params;
   const post = await getPostById(id);
 
   if (!post) {
