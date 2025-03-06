@@ -1,10 +1,15 @@
-import { getServerSession } from "next-auth";
+"use client";
 import { CreatePostForm } from "@/components/post/createPostForm";
+import { useSession } from "next-auth/react";
 
-export default async function CreatePost() {
-  const session = await getServerSession();
+export default function CreatePost() {
+  const { data: session } = useSession();
 
-  if (!session?.user?.isAdmin) {
+  if (!session) {
+    return <div>You are not signed in</div>;
+  }
+
+  if (!session.user?.isAdmin) {
     return <div>You are not an admin</div>;
   }
 
