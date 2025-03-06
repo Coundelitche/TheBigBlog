@@ -1,8 +1,6 @@
 "use client";
 import { CommentForm } from "./commentForm";
-import { getComments } from "@/app/action/comments";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { CommentCard } from "./commentCard";
 
