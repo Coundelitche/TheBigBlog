@@ -1,4 +1,6 @@
+"use client";
 import { PostPreviewCard } from "../post/postPreviewCard";
+import { usePostContext } from "@/context/PostContext";
 
 interface Post {
   id: string;
@@ -12,7 +14,8 @@ interface Post {
   };
 }
 
-export const PostDisplayer = ({ posts }: { posts: Post[] }) => {
+export const PostDisplayer = () => {
+  const { posts } = usePostContext();
   return (
     <div className="flex flex-col items-center gap-4 py-4">
       <h2 className="text-center text-2xl">Latest Posts</h2>
