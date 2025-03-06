@@ -4,6 +4,13 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import z from "zod";
+
+const commentSchema = z.object({
+  content: z.string().min(1),
+  authorId: z.string().min(1),
+  postId: z.string().min(1),
+});
 
 interface Comment {
   id: string;
@@ -16,27 +23,33 @@ interface Comment {
   };
 }
 
-export const CommentForm = ({
-  userId,
-  setComments,
-}: {
+interface CommentFormProps {
   userId: string;
-  setComments: (comments: Comment[] | ((prev: Comment[]) => Comment[])) => void;
-}) => {
+  updateComments: (newComment: Comment) => void;
+}
+
+export const CommentForm = ({ userId, updateComments }: CommentFormProps) => {
   const [content, setContent] = useState("");
   const params = useParams();
   const postId = params.id as string;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    const newComment = await createComment({
+    const data = {
       content,
       authorId: userId,
       postId: postId,
-    });
+    };
+    const result = commentSchema.safeParse(data);
 
-    setComments((prev) => [...prev, newComment]);
+    if (!result.success) {
+      console.error(result.error);
+      return;
+    }
+
+    const newComment = await createComment(result.data);
+
+    updateComments(newComment);
     setContent("");
   };
 

@@ -1,4 +1,3 @@
-import { getPost } from "@/app/action/post";
 import { PostPreviewCard } from "../post/postPreviewCard";
 
 interface Post {
@@ -13,8 +12,7 @@ interface Post {
   };
 }
 
-export const PostDisplayer = async () => {
-  const posts = await getPost();
+export const PostDisplayer = ({ posts }: { posts: Post[] }) => {
   return (
     <div className="flex flex-col items-center gap-4 py-4">
       <h2 className="text-center text-2xl">Latest Posts</h2>

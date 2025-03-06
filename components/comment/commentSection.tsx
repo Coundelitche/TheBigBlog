@@ -17,22 +17,22 @@ interface Comment {
   };
 }
 
-export const CommentSection = () => {
-  const [comments, setComments] = useState<Comment[]>([]);
-  const params = useParams();
+export const CommentSection = ({
+  comments: initialComments,
+}: {
+  comments: Comment[];
+}) => {
+  const [comments, setComments] = useState<Comment[]>(initialComments);
   const { data: session } = useSession();
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      const fetchedComments = await getComments(params.id as string);
-      setComments(fetchedComments);
-    };
-    fetchComments();
-  }, [params.id]);
+  const updateComments = (newComments: Comment) => {
+    setComments((prevComments) => [...prevComments, newComments] as Comment[]);
+  };
 
   return (
     <>
       <div className="flex flex-col border shadow-md rounded-md gap-4 p-4 bg-card">
+        <h2 className="text-xl text-center">Comments</h2>
         {comments.length === 0 && <p>No comments yet</p>}
         {comments.map((comment) => {
           return (
@@ -54,7 +54,7 @@ export const CommentSection = () => {
         ) : (
           <CommentForm
             userId={session?.user.id || ""}
-            setComments={setComments}
+            updateComments={updateComments}
           />
         )}
       </div>

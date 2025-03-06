@@ -9,6 +9,16 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { Editor } from "@tiptap/react";
+import { usePostContext } from "@/context/PostContext";
+import z from "zod";
+
+const postSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  authorId: z.string().min(1),
+  content: z.string().min(1),
+  imageUrl: z.string().min(1),
+});
 
 const TiptapArea = dynamic(() => import("../ui/tiptap"), {
   ssr: false,
@@ -18,22 +28,29 @@ export const CreatePostForm = ({ userId }: { userId: string }) => {
   const authorId = userId;
   const router = useRouter();
   const editorRef = useRef<Editor | null>(null);
+  const { refreshPosts } = usePostContext();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
-
-    // Récupérer le contenu de Tiptap uniquement lors de la soumission
     const content = editorRef.current?.getHTML() || "";
 
-    await createPost({
+    const data = {
       title: formData.get("title") as string,
       content: content, // On envoie le contenu ici
       imageUrl: formData.get("imageUrl") as string,
       authorId,
       description: formData.get("description") as string,
-    });
+    };
+    const result = postSchema.safeParse(data);
 
+    if (!result.success) {
+      console.error(result.error);
+      return;
+    }
+
+    await createPost(result.data);
+    refreshPosts();
     router.push("/");
   };
 
