@@ -57,7 +57,7 @@ export const PostDisplayer = () => {
     }
 
     setSortedPosts(filteredPosts);
-  }, [posts, categories, sortBy]);
+  }, [posts, categories, sortBy, refreshPosts]);
 
   return (
     <div className="flex flex-col items-center gap-4 py-4 mt-4">
