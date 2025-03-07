@@ -5,6 +5,7 @@ import { SessionProviderWrapper } from "@/components/auth/sessionProviderWrapper
 import { Header } from "@/components/layout/header";
 import { PostProvider } from "@/context/PostContext";
 import { CategoryProvider } from "@/context/CategoryContext";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
             <SessionProviderWrapper>
               <Header />
               {children}
+              <Toaster />
             </SessionProviderWrapper>
           </PostProvider>
         </CategoryProvider>

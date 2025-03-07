@@ -9,6 +9,7 @@ import {
 } from "@/app/action/comments";
 import { useState } from "react";
 import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
 interface Comment {
   id: string;
@@ -39,6 +40,7 @@ export const CommentCard = ({
   const handleDeleteComment = async (commentId: string) => {
     await deleteComment(commentId);
     setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+    toast.success("Comment deleted");
   };
 
   const handleEditTrigger = (comment: Comment) => {
@@ -62,10 +64,11 @@ export const CommentCard = ({
     fetchComments();
 
     setIsEditing(false);
+    toast.success("Comment edited");
   };
 
   return (
-    <div>
+    <div className="border border-black p-2 rounded-md bg-card">
       <div className="flex justify-between">
         <p className="pl-2">{comment.author.name}</p>
         <p className="text-sm">
@@ -103,7 +106,7 @@ export const CommentCard = ({
           </form>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 border p-1 rounded-md">
+        <div className="flex flex-col gap-2 border p-1 rounded-md bg-background">
           <p className="pl-2">{comment.content}</p>
         </div>
       )}

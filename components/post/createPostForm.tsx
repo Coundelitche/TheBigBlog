@@ -18,11 +18,12 @@ import {
   SelectValue,
   SelectTrigger,
 } from "../ui/select";
+import { toast } from "sonner";
 
 const postSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  category: z.enum(["Javascript", "Python", "Lifestyle"]),
+  category: z.enum(["React", "Python", "Lifestyle"]),
   authorId: z.string().min(1),
   content: z.string().min(1),
   imageUrl: z.string().min(1),
@@ -61,6 +62,7 @@ export const CreatePostForm = ({ userId }: { userId: string }) => {
     await createPost(result.data);
     refreshPosts();
     router.push("/");
+    toast.success("Post created");
   };
 
   return (
@@ -82,12 +84,12 @@ export const CreatePostForm = ({ userId }: { userId: string }) => {
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="category">Category</Label>
-            <Select defaultValue="Javascript" name="category">
+            <Select defaultValue="React" name="category">
               <SelectTrigger className="w-full bg-background">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Javascript">Javascript</SelectItem>
+                <SelectItem value="React">React</SelectItem>
                 <SelectItem value="Python">Python</SelectItem>
                 <SelectItem value="Lifestyle">Lifestyle</SelectItem>
               </SelectContent>

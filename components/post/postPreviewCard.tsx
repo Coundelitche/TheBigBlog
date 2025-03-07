@@ -28,7 +28,7 @@ export const PostPreviewCard = ({ post }: { post: Post }) => {
   return (
     <Link
       href={`/post/${post.id}`}
-      className="hover:bg-gray-200 hover:scale-95 hover:rounded-md transition-all"
+      className="hover:bg-gray-200 md:hover:scale-95 transition-all"
     >
       <div className="flex border rounded-lg shadow-md bg-card">
         <Image
@@ -36,10 +36,10 @@ export const PostPreviewCard = ({ post }: { post: Post }) => {
           alt="post image"
           width={2000}
           height={2000}
-          className="w-1/2 h-72 rounded-l-lg object-cover"
+          className="w-1/2 h-84 md:h-72 rounded-l-lg object-cover"
           priority
         />
-        <div className="w-1/2 flex flex-col justify-between p-4">
+        <div className="w-1/2 flex flex-col justify-between p-2 md:p-4">
           <div>
             <h2 className="text-xl underline text-center">{post.title}</h2>
           </div>

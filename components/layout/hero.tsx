@@ -25,7 +25,7 @@ export const Hero = () => {
           className="object-cover rounded-md h-92 relative"
           priority
         />
-        <div className="w-2/3 absolute z-20 text-white">
+        <div className="w-4/5 md:w-2/3 absolute z-20 text-white">
           <h1 className="text-5xl font-bold mb-6 text-center">Welcome</h1>
           <p className="text-center text-xl">
             Follow our journey as we build Wakehub and other exciting projects.
@@ -36,16 +36,23 @@ export const Hero = () => {
           </p>
         </div>
       </div>
-
-      {/* Masquer cette div si on est sur une page d'authentification */}
       {!isAuthPage && (
-        <div className="flex justify-center absolute -bottom-6 border rounded-md shadow-md p-2 bg-background z-30 gap-2">
-          <Button onClick={() => setCategories("Javascript")}>
-            Javascript
+        <div className="flex justify-center absolute -bottom-6 border rounded-md shadow-md p-1 md:p-2 bg-background z-30 gap-1 md:gap-2">
+          <Button onClick={() => setCategories("React")} className="text-xs">
+            React
           </Button>
-          <Button onClick={() => setCategories("Python")}>Python</Button>
-          <Button onClick={() => setCategories("Lifestyle")}>Lifestyle</Button>
-          <Button onClick={() => setCategories("All")}>All</Button>
+          <Button onClick={() => setCategories("Python")} className="text-xs">
+            Python
+          </Button>
+          <Button
+            onClick={() => setCategories("Lifestyle")}
+            className="text-xs"
+          >
+            Lifestyle
+          </Button>
+          <Button onClick={() => setCategories("All")} className="text-xs">
+            All
+          </Button>
         </div>
       )}
     </div>

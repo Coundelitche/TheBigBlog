@@ -19,6 +19,7 @@ import { CircleX, Pencil } from "lucide-react";
 import DOMPurify from "isomorphic-dompurify";
 import { Badge } from "../ui/badge";
 import { LikeButton } from "../ui/likeButton";
+import { toast } from "sonner";
 
 interface Like {
   id: string;
@@ -57,6 +58,7 @@ export const PostCard = ({ post }: { post: Post }) => {
 
   const handleDelete = async (postId: string) => {
     await deletePost(postId);
+    toast.success("Post deleted");
   };
 
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,6 +90,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       author: actualPost.author,
     });
     setIsEditing(false);
+    toast.success("Post edited");
   };
 
   return (
@@ -135,12 +138,12 @@ export const PostCard = ({ post }: { post: Post }) => {
             </div>
             <div className="flex flex-col gap-1">
               <Label htmlFor="category">Category</Label>
-              <Select defaultValue="Javascript" name="category">
+              <Select defaultValue="React" name="category">
                 <SelectTrigger className="bg-background">
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Javascript">Javascript</SelectItem>
+                  <SelectItem value="React">React</SelectItem>
                   <SelectItem value="Python">Python</SelectItem>
                   <SelectItem value="Lifestyle">Lifestyle</SelectItem>
                 </SelectContent>

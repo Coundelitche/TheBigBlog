@@ -65,7 +65,7 @@ export const PostDisplayer = () => {
       <div className="flex justify-between w-full px-4">
         <div className="w-1/3 flex">
           <Select onValueChange={(value) => setSortBy(value)}>
-            <SelectTrigger className="bg-background text-lg">
+            <SelectTrigger className="bg-background text-sm md:text-lg">
               <SelectValue placeholder="Sort by:" />
             </SelectTrigger>
             <SelectContent>
@@ -74,8 +74,10 @@ export const PostDisplayer = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="w-1/3">
-          <h2 className="text-center text-2xl">{categories} Posts</h2>
+        <div className="w-1/3 flex items-center justify-center">
+          <h2 className="text-center text-xl md:text-2xl">
+            {categories} Posts
+          </h2>
         </div>
         <div className="w-1/3"></div>
       </div>

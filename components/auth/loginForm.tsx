@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Hero } from "../layout/hero";
+import { toast } from "sonner";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ export const LoginForm = () => {
     if (result?.error) {
       alert(result.error);
     } else {
-      alert("Logged in");
+      toast.success("Logged in");
       router.push("/");
     }
   };

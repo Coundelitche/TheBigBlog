@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { createUser, getUserByEmail } from "@/app/action/user";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export const RegisterForm = () => {
   const router = useRouter();
@@ -32,6 +33,7 @@ export const RegisterForm = () => {
       email,
       password,
     });
+    toast.success("User created");
   };
   return (
     <>
