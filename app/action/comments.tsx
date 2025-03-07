@@ -10,45 +10,77 @@ export async function createComment({
   content: string;
   authorId: string;
 }) {
-  if (!postId || !content || !authorId) {
-    throw new Error("Missing required fields");
-  }
-  const comment = await prisma.comment.create({
-    data: {
-      content,
-      authorId,
-      postId,
-    },
-    include: {
-      author: true,
-    },
-  });
+  try {
+    if (!postId || !content || !authorId) {
+      throw new Error("Tous les champs sont requis.");
+    }
 
-  return comment;
+    const comment = await prisma.comment.create({
+      data: {
+        content,
+        authorId,
+        postId,
+      },
+      include: {
+        author: {
+          select: { id: true, name: true }, // Sécuriser les infos retournées
+        },
+      },
+    });
+
+    return comment;
+  } catch (error) {
+    console.error("Erreur lors de la création du commentaire:", error);
+    throw new Error("Impossible d'ajouter le commentaire.");
+  }
 }
 
 export async function getComments(postId: string) {
-  const comments = await prisma.comment.findMany({
-    where: {
-      postId,
-    },
-    include: {
-      author: true,
-    },
-    orderBy: {
-      createdAt: "asc",
-    },
-  });
-  return comments;
+  try {
+    if (!postId) {
+      throw new Error("L'ID du post est requis.");
+    }
+
+    const comments = await prisma.comment.findMany({
+      where: { postId },
+      include: {
+        author: {
+          select: { id: true, name: true }, // Ne retourne que le nécessaire
+        },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    return comments;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des commentaires:", error);
+    throw new Error("Impossible de récupérer les commentaires.");
+  }
 }
 
 export async function deleteComment(commentId: string) {
-  const comment = await prisma.comment.delete({
-    where: {
-      id: commentId,
-    },
-  });
-  return comment;
+  try {
+    if (!commentId) {
+      throw new Error("L'ID du commentaire est requis.");
+    }
+
+    const existingComment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!existingComment) {
+      throw new Error("Commentaire introuvable.");
+    }
+
+    await prisma.comment.delete({
+      where: { id: commentId },
+    });
+
+    return { success: true, message: "Commentaire supprimé." };
+  } catch (error) {
+    console.error("Erreur lors de la suppression du commentaire:", error);
+    throw new Error("Impossible de supprimer le commentaire.");
+  }
 }
 
 export async function updateComment({
@@ -58,14 +90,27 @@ export async function updateComment({
   commentId: string;
   content: string;
 }) {
-  const comment = await prisma.comment.update({
-    where: {
-      id: commentId,
-    },
-    data: {
-      content,
-    },
-  });
+  try {
+    if (!commentId || !content) {
+      throw new Error("Tous les champs sont requis.");
+    }
 
-  return comment;
+    const existingComment = await prisma.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!existingComment) {
+      throw new Error("Commentaire introuvable.");
+    }
+
+    const updatedComment = await prisma.comment.update({
+      where: { id: commentId },
+      data: { content },
+    });
+
+    return updatedComment;
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du commentaire:", error);
+    throw new Error("Impossible de modifier le commentaire.");
+  }
 }

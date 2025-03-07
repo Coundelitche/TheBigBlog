@@ -169,6 +169,7 @@ export const PostCard = ({ post }: { post: Post }) => {
             width={2000}
             height={2000}
             className="w-full h-72 object-cover rounded-t-md"
+            priority
           />
           <div className="w-full flex flex-col justify-between py-4 px-10">
             <h2 className="text-3xl text-center underline mb-10 mt-6">

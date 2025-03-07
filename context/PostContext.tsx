@@ -20,6 +20,7 @@ interface Post {
     id: string;
     name: string | null;
   };
+  createdAt: Date;
 }
 
 interface PostContextType {

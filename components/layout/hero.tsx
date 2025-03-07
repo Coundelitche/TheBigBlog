@@ -1,11 +1,17 @@
 "use client";
 import Image from "next/image";
-import bg2 from "@/public/hero2.jpg";
+import { usePathname } from "next/navigation";
+import bg2 from "@/public/hero2.webp";
 import { Button } from "../ui/button";
 import { useCategoryContext } from "@/context/CategoryContext";
 
 export const Hero = () => {
   const { setCategories } = useCategoryContext();
+  const pathname = usePathname(); // Récupérer l'URL actuelle
+
+  // Vérifier si on est sur les pages register ou login
+  const isAuthPage =
+    pathname === "/auth/register" || pathname === "/auth/login";
 
   return (
     <div className="flex flex-col items-center justify-center mx-4 my-3 relative">
@@ -17,6 +23,7 @@ export const Hero = () => {
           width={2000}
           height={2000}
           className="object-cover rounded-md h-92 relative"
+          priority
         />
         <div className="w-2/3 absolute z-20 text-white">
           <h1 className="text-5xl font-bold mb-6 text-center">Welcome</h1>
@@ -29,12 +36,18 @@ export const Hero = () => {
           </p>
         </div>
       </div>
-      <div className="flex justify-center absolute -bottom-6 border rounded-md shadow-md p-2 bg-background z-30 gap-2">
-        <Button onClick={() => setCategories("Javascript")}>Javascript</Button>
-        <Button onClick={() => setCategories("Python")}>Python</Button>
-        <Button onClick={() => setCategories("Lifestyle")}>Lifestyle</Button>
-        <Button onClick={() => setCategories("All")}>All</Button>
-      </div>
+
+      {/* Masquer cette div si on est sur une page d'authentification */}
+      {!isAuthPage && (
+        <div className="flex justify-center absolute -bottom-6 border rounded-md shadow-md p-2 bg-background z-30 gap-2">
+          <Button onClick={() => setCategories("Javascript")}>
+            Javascript
+          </Button>
+          <Button onClick={() => setCategories("Python")}>Python</Button>
+          <Button onClick={() => setCategories("Lifestyle")}>Lifestyle</Button>
+          <Button onClick={() => setCategories("All")}>All</Button>
+        </div>
+      )}
     </div>
   );
 };

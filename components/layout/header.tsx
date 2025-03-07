@@ -3,7 +3,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
-import Logo from "../../public/logobigblog.png";
+import Logo from "../../public/logobigblog.webp";
 import Image from "next/image";
 import { LogIn, LogOut } from "lucide-react";
 

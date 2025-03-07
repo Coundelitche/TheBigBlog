@@ -36,7 +36,7 @@ export const RegisterForm = () => {
   return (
     <>
       <Hero />
-      <div className="flex flex-col border bg-card rounded-md p-4 shadow-md">
+      <div className="flex flex-col border bg-card rounded-md p-4 shadow-md mt-10">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
             <Label>Name</Label>

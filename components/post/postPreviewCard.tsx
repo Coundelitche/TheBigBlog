@@ -21,6 +21,7 @@ interface Post {
     id: string;
     name: string | null;
   };
+  createdAt: Date;
 }
 
 export const PostPreviewCard = ({ post }: { post: Post }) => {
@@ -36,6 +37,7 @@ export const PostPreviewCard = ({ post }: { post: Post }) => {
           width={2000}
           height={2000}
           className="w-1/2 h-72 rounded-l-lg object-cover"
+          priority
         />
         <div className="w-1/2 flex flex-col justify-between p-4">
           <div>
