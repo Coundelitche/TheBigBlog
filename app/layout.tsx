@@ -4,6 +4,7 @@ import "./globals.css";
 import { SessionProviderWrapper } from "@/components/auth/sessionProviderWrapper";
 import { Header } from "@/components/layout/header";
 import { PostProvider } from "@/context/PostContext";
+import { CategoryProvider } from "@/context/CategoryContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,12 +31,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <PostProvider>
-          <SessionProviderWrapper>
-            <Header />
-            {children}
-          </SessionProviderWrapper>
-        </PostProvider>
+        <CategoryProvider>
+          <PostProvider>
+            <SessionProviderWrapper>
+              <Header />
+              {children}
+            </SessionProviderWrapper>
+          </PostProvider>
+        </CategoryProvider>
       </body>
     </html>
   );

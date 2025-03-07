@@ -7,6 +7,7 @@ interface Post {
   title: string;
   description: string;
   content: string;
+  category: string;
   imageUrl: string;
   author: {
     id: string;

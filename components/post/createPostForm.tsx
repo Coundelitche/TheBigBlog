@@ -11,10 +11,18 @@ import { useRef } from "react";
 import { Editor } from "@tiptap/react";
 import { usePostContext } from "@/context/PostContext";
 import z from "zod";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+  SelectTrigger,
+} from "../ui/select";
 
 const postSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
+  category: z.enum(["Javascript", "Python", "Lifestyle"]),
   authorId: z.string().min(1),
   content: z.string().min(1),
   imageUrl: z.string().min(1),
@@ -38,6 +46,7 @@ export const CreatePostForm = ({ userId }: { userId: string }) => {
     const data = {
       title: formData.get("title") as string,
       content: content, // On envoie le contenu ici
+      category: formData.get("category") as string,
       imageUrl: formData.get("imageUrl") as string,
       authorId,
       description: formData.get("description") as string,
@@ -55,7 +64,7 @@ export const CreatePostForm = ({ userId }: { userId: string }) => {
   };
 
   return (
-    <div className="flex flex-col w-full px-4 mt-8 itemes-center">
+    <div className="flex flex-col w-4/5 p-4 mt-8 itemes-center border rounded-md bg-card shadow-md">
       <div className="flex flex-col gap-3 w-full">
         <h2 className="text-3xl text-center">Create Post</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -70,6 +79,19 @@ export const CreatePostForm = ({ userId }: { userId: string }) => {
           <div className="flex flex-col gap-1">
             <Label htmlFor="content">Content</Label>
             <TiptapArea editorRef={editorRef} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label htmlFor="category">Category</Label>
+            <Select defaultValue="Javascript" name="category">
+              <SelectTrigger className="w-full bg-background">
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Javascript">Javascript</SelectItem>
+                <SelectItem value="Python">Python</SelectItem>
+                <SelectItem value="Lifestyle">Lifestyle</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor="imageUrl">Image URL</Label>

@@ -6,18 +6,21 @@ export async function createPost({
   content,
   imageUrl,
   authorId,
+  category,
   description,
 }: {
   title: string;
   content: string;
   imageUrl: string;
   authorId: string;
+  category: string;
   description: string;
 }) {
   const post = await prisma.post.create({
     data: {
       title,
       content,
+      category,
       imageUrl,
       authorId,
       description,
@@ -40,6 +43,9 @@ export async function getPost() {
 }
 
 export async function getPostById(id: string) {
+  if (!id) {
+    throw new Error("Post id is required");
+  }
   const post = await prisma.post.findUnique({
     where: {
       id,
@@ -64,12 +70,14 @@ export async function updatePost({
   postId,
   title,
   content,
+  category,
   imageUrl,
   description,
 }: {
   postId: string;
   title: string;
   content: string;
+  category: string;
   imageUrl: string;
   description: string;
 }) {
@@ -80,6 +88,7 @@ export async function updatePost({
     data: {
       title,
       content,
+      category,
       imageUrl,
       description,
     },

@@ -26,6 +26,7 @@ model Post {
   title     String
   content   String
   description String
+  category String
   imageUrl  String
   authorId  String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)

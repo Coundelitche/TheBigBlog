@@ -36,10 +36,9 @@ export default function TiptapArea({
   editorRef.current = editor;
 
   return (
-    <div className="space-y-2 bg-card rounded-md border flex flex-col items-center">
-      <div className="flex flex-wrap items-center gap-2 rounded-lg mb-0 py-1">
+    <div className="space-y-2 bg-card rounded-md border flex flex-col items-center overflow-auto">
+      <div className="flex flex-wrap bg-background w-full items-center justify-center gap-2 rounded-t-lg mb-0 py-2">
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -47,7 +46,6 @@ export default function TiptapArea({
           <strong>B</strong>
         </Button>
         <Button
-          variant="outline"
           type="button"
           size="sm"
           onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -55,7 +53,6 @@ export default function TiptapArea({
           <em>I</em>
         </Button>
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().toggleUnderline().run()}
@@ -63,7 +60,6 @@ export default function TiptapArea({
           <u>U</u>
         </Button>
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().setTextAlign("left").run()}
@@ -71,7 +67,6 @@ export default function TiptapArea({
           ⬅️
         </Button>
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().setTextAlign("center").run()}
@@ -79,7 +74,6 @@ export default function TiptapArea({
           ⏺️
         </Button>
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().setTextAlign("right").run()}
@@ -87,7 +81,6 @@ export default function TiptapArea({
           ➡️
         </Button>
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
@@ -95,7 +88,6 @@ export default function TiptapArea({
           •
         </Button>
         <Button
-          variant="outline"
           size="sm"
           type="button"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
@@ -106,7 +98,7 @@ export default function TiptapArea({
       <EditorContent
         editor={editor}
         onBlur={(e) => e.preventDefault()}
-        className="prose bg-card h-48 p-4 border-t rounded-b-md w-full"
+        className="prose bg-background h-48 p-4 border-t rounded-b-md w-full"
       />
     </div>
   );

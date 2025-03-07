@@ -5,17 +5,26 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+  SelectTrigger,
+} from "../ui/select";
 import { deletePost } from "@/app/action/post";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { updatePost } from "@/app/action/post";
 import { CircleX, Pencil } from "lucide-react";
 import DOMPurify from "dompurify";
+import { Badge } from "../ui/badge";
 
 interface Post {
   id: string;
   title: string;
   content: string;
+  category: string;
   description: string;
   imageUrl: string;
   createdAt: Date;
@@ -30,6 +39,14 @@ export const PostCard = ({ post }: { post: Post }) => {
   const [actualPost, setActualPost] = useState(post);
   const { data: session } = useSession();
 
+  const sanitizeAndWrapCode = (content: string) => {
+    // Utilisation d'une regex pour détecter les balises <code> qui ne sont pas déjà dans un <pre>
+    return content.replace(
+      /<code>([\s\S]*?)<\/code>/g,
+      "<pre><code>$1</code></pre>"
+    );
+  };
+
   const handleDelete = async (postId: string) => {
     await deletePost(postId);
   };
@@ -39,6 +56,7 @@ export const PostCard = ({ post }: { post: Post }) => {
     const formData = new FormData(e.target as HTMLFormElement);
     const title = formData.get("title") as string;
     const content = formData.get("content") as string;
+    const category = formData.get("category") as string;
     const imageUrl = formData.get("imageUrl") as string;
     const description = formData.get("description") as string;
 
@@ -46,6 +64,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       postId: actualPost.id,
       title,
       content,
+      category,
       imageUrl,
       description,
     });
@@ -53,6 +72,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       id: actualPost.id,
       title,
       content,
+      category,
       description,
       imageUrl,
       createdAt: actualPost.createdAt,
@@ -96,13 +116,26 @@ export const PostCard = ({ post }: { post: Post }) => {
               <Textarea
                 name="content"
                 placeholder="Content"
-                className="h-36"
+                className="h-96"
                 value={actualPost.content}
                 onChange={(e) =>
                   setActualPost({ ...actualPost, content: e.target.value })
                 }
                 required
               ></Textarea>
+            </div>
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="category">Category</Label>
+              <Select defaultValue="Javascript" name="category">
+                <SelectTrigger className="bg-background">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Javascript">Javascript</SelectItem>
+                  <SelectItem value="Python">Python</SelectItem>
+                  <SelectItem value="Lifestyle">Lifestyle</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col gap-1">
               <Label htmlFor="imageUrl">Image URL</Label>
@@ -128,14 +161,20 @@ export const PostCard = ({ post }: { post: Post }) => {
             height={2000}
             className="w-full h-72 object-cover rounded-t-md"
           />
-          <div className="w-full flex flex-col justify-between p-4">
-            <h2 className="text-xl underline">{actualPost.title}</h2>
+          <div className="w-full flex flex-col justify-between py-4 px-10">
+            <h2 className="text-3xl text-center underline mb-10 mt-6">
+              {actualPost.title}
+            </h2>
             <div
+              className="prose"
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(post.content),
+                __html: DOMPurify.sanitize(sanitizeAndWrapCode(post.content)),
               }}
             />
-            <div className="flex justify-end text-xl">
+            <div className="flex justify-between text-xl border-t-3 mt-3 pt-3">
+              <div className="flex items-center">
+                <Badge className="p-2 text-md">{actualPost.category}</Badge>
+              </div>
               <div className="flex flex-col">
                 <p className="text-right">{actualPost.author.name}</p>
                 <p className="text-sm text-right">
@@ -145,7 +184,10 @@ export const PostCard = ({ post }: { post: Post }) => {
                 actualPost.author.id === session?.user.id ? (
                   <div className="flex gap-1 mt-1">
                     <Link href={"/"}>
-                      <Button onClick={() => handleDelete(actualPost.id)}>
+                      <Button
+                        variant="destructive"
+                        onClick={() => handleDelete(actualPost.id)}
+                      >
                         <CircleX />
                       </Button>
                     </Link>

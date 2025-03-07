@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "../ui/badge";
 
 interface Post {
   id: string;
   title: string;
   description: string;
   content: string;
+  category: string;
   imageUrl: string;
   author: {
     id: string;
@@ -29,10 +31,13 @@ export const PostPreviewCard = ({ post }: { post: Post }) => {
         />
         <div className="w-1/2 flex flex-col justify-between p-4">
           <div>
-            <h2 className="text-xl underline">{post.title}</h2>
+            <h2 className="text-xl underline text-center">{post.title}</h2>
           </div>
           <div>{post.description}</div>
-          <div className="flex justify-end text-xl">{post.author.name}</div>
+          <div className="flex justify-between text-xl">
+            <Badge>{post.category}</Badge>
+            <p>{post.author.name}</p>
+          </div>
         </div>
       </div>
     </Link>

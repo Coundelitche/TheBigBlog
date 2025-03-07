@@ -46,31 +46,32 @@
 }
 
 :root {
-  --background: hsl(150, 2%, 84%);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(213, 13%, 16%);
+  --muted: hsl(0, 12%, 90%);
+  --muted-foreground: hsl(0, 12%, 30%);
+  --popover: hsl(0, 0%, 97%);
+  --popover-foreground: hsl(213, 13%, 6%);
+  --card: hsl(0 0% 95%);
+  --card-foreground: hsl(213, 13%, 11%);
+  --border: hsl(0, 0%, 95%);
+  --input: hsl(0, 0%, 92%);
+  --primary: hsl(213, 13%, 16%);
+  --primary-foreground: hsl(213, 13%, 76%);
+  --secondary: hsl(213, 3%, 75%);
+  --secondary-foreground: hsl(213, 3%, 15%);
+  --accent: hsl(0, 0%, 85%);
+  --accent-foreground: hsl(0, 0%, 25%);
+  --destructive: hsl(0, 80%, 40%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(213, 13%, 16%);
+  --chart-1: hsl(213, 13%, 16%);
+  --chart-2: hsl(213, 3%, 75%);
+  --chart-3: hsl(0, 0%, 85%);
+  --chart-4: hsl(213, 3%, 78%);
+  --chart-5: hsl(213, 16%, 16%);
+  --radius: 0.5rem;
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.141 0.005 285.823);
   --sidebar-primary: oklch(0.21 0.006 285.885);
@@ -141,4 +142,8 @@
 
 .prose li {
   margin-bottom: 5px;
+}
+
+.prose pre {
+  @apply bg-gray-900 text-white rounded-md mx-15 py-4 px-1 w-3/4;
 }
