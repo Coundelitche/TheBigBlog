@@ -81,7 +81,7 @@ export const PostDisplayer = () => {
         </div>
         <div className="w-1/3"></div>
       </div>
-      <div className="px-4 grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {sortedPosts.map((post) => (
           <PostPreviewCard key={post.id} post={post} />
         ))}

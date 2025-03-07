@@ -18,7 +18,7 @@ export const Header = () => {
 
   return (
     <div className="flex items-center justify-between my-3 mx-4">
-      <div className="hidden md:w-1/3"></div>
+      <div className="hidden md:block md:w-1/3"></div>
       <div className="flex justify-start md:justify-center w-1/2 md:w-1/3">
         <Link href="/">
           <Image src={Logo} alt="logo" width={120} height={120} />
