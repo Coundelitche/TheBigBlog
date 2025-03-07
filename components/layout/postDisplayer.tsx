@@ -4,6 +4,12 @@ import { usePostContext } from "@/context/PostContext";
 import { useCategoryContext } from "@/context/CategoryContext";
 import { useEffect } from "react";
 
+interface Like {
+  id: string;
+  authorId: string;
+  postId: string;
+}
+
 interface Post {
   id: string;
   title: string;
@@ -11,19 +17,19 @@ interface Post {
   content: string;
   category: string;
   imageUrl: string;
+  likes: Like[];
   author: {
     id: string;
     name: string | null;
   };
 }
-
 export const PostDisplayer = () => {
   const { posts, refreshPosts } = usePostContext();
   const { categories } = useCategoryContext();
 
   useEffect(() => {
     refreshPosts();
-  }, []);
+  }, [categories]);
 
   const displayedPosts = posts.filter((post) => post.category === categories);
   return (

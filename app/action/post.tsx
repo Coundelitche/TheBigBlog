@@ -34,6 +34,7 @@ export async function getPost() {
   const posts = await prisma.post.findMany({
     include: {
       author: true,
+      likes: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -52,6 +53,7 @@ export async function getPostById(id: string) {
     },
     include: {
       author: true,
+      likes: true,
     },
   });
   return post;
@@ -95,4 +97,15 @@ export async function updatePost({
   });
 
   return post;
+}
+
+export async function likePost(postId: string, userId: string) {
+  const like = await prisma.like.create({
+    data: {
+      postId,
+      authorId: userId, // Passe le userId en paramètre pour plus de sécurité
+    },
+  });
+
+  return like;
 }

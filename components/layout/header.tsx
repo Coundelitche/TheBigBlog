@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import Logo from "../../public/logobigblog.png";
 import Image from "next/image";
+import { LogIn, LogOut } from "lucide-react";
 
 export const Header = () => {
   const { data: session } = useSession();
@@ -19,12 +20,14 @@ export const Header = () => {
       </div>
       <div className="flex justify-end items-center w-1/3">
         {!session?.user ? (
-          <div className="flex flex-col gap-1">
-            <Link href="/auth/register">
-              <Button>Register</Button>
+          <div className="flex flex-col gap-3">
+            <Link href="/auth/register" className="w-full">
+              <Button className="w-full">Register</Button>
             </Link>
-            <Link href="/auth/login">
-              <Button>Login</Button>
+            <Link href="/auth/login" className="w-full">
+              <Button className="w-full">
+                <LogIn />{" "}
+              </Button>
             </Link>
           </div>
         ) : (
@@ -35,7 +38,9 @@ export const Header = () => {
                 <Button>Create Post</Button>
               </Link>
             )}
-            <Button onClick={() => signOut()}>Logout</Button>
+            <Button onClick={() => signOut()}>
+              <LogOut />
+            </Button>
           </div>
         )}
       </div>

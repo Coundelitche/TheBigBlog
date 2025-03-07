@@ -1,6 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
+import { ThumbsUp } from "lucide-react";
+
+interface Like {
+  id: string;
+  authorId: string;
+  postId: string;
+}
 
 interface Post {
   id: string;
@@ -9,6 +16,7 @@ interface Post {
   content: string;
   category: string;
   imageUrl: string;
+  likes: Like[];
   author: {
     id: string;
     name: string | null;
@@ -36,7 +44,10 @@ export const PostPreviewCard = ({ post }: { post: Post }) => {
           <div>{post.description}</div>
           <div className="flex justify-between text-xl">
             <Badge>{post.category}</Badge>
-            <p>{post.author.name}</p>
+            <Badge>
+              <ThumbsUp /> {post.likes.length}
+            </Badge>
+            <Badge>{post.author.name}</Badge>
           </div>
         </div>
       </div>

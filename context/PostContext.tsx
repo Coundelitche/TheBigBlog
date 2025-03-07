@@ -2,6 +2,12 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { getPost } from "@/app/action/post";
 
+interface Like {
+  id: string;
+  authorId: string;
+  postId: string;
+}
+
 interface Post {
   id: string;
   title: string;
@@ -9,6 +15,7 @@ interface Post {
   content: string;
   category: string;
   imageUrl: string;
+  likes: Like[];
   author: {
     id: string;
     name: string | null;

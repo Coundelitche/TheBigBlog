@@ -36,7 +36,7 @@ export default function TiptapArea({
   editorRef.current = editor;
 
   return (
-    <div className="space-y-2 bg-card rounded-md border flex flex-col items-center overflow-auto">
+    <div className="space-y-2 bg-card rounded-md border flex flex-col items-center">
       <div className="flex flex-wrap bg-background w-full items-center justify-center gap-2 rounded-t-lg mb-0 py-2">
         <Button
           size="sm"
@@ -98,7 +98,7 @@ export default function TiptapArea({
       <EditorContent
         editor={editor}
         onBlur={(e) => e.preventDefault()}
-        className="prose bg-background h-48 p-4 border-t rounded-b-md w-full"
+        className="prose bg-background h-48 p-4 border-t rounded-b-md w-full overflow-auto"
       />
     </div>
   );

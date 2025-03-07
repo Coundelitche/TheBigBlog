@@ -12,26 +12,33 @@ import {
   SelectValue,
   SelectTrigger,
 } from "../ui/select";
-import { deletePost } from "@/app/action/post";
+import { deletePost, updatePost } from "@/app/action/post";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { updatePost } from "@/app/action/post";
 import { CircleX, Pencil } from "lucide-react";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { Badge } from "../ui/badge";
+import { LikeButton } from "../ui/likeButton";
+
+interface Like {
+  id: string;
+  authorId: string;
+  postId: string;
+}
 
 interface Post {
   id: string;
   title: string;
+  description: string;
   content: string;
   category: string;
-  description: string;
   imageUrl: string;
-  createdAt: Date;
+  likes: Like[];
   author: {
     id: string;
-    name: string;
+    name: string | null;
   };
+  createdAt: Date;
 }
 
 export const PostCard = ({ post }: { post: Post }) => {
@@ -40,11 +47,12 @@ export const PostCard = ({ post }: { post: Post }) => {
   const { data: session } = useSession();
 
   const sanitizeAndWrapCode = (content: string) => {
-    // Utilisation d'une regex pour détecter les balises <code> qui ne sont pas déjà dans un <pre>
-    return content.replace(
+    const wrappedContent = content.replace(
       /<code>([\s\S]*?)<\/code>/g,
       "<pre><code>$1</code></pre>"
     );
+
+    return DOMPurify.sanitize(wrappedContent);
   };
 
   const handleDelete = async (postId: string) => {
@@ -75,6 +83,7 @@ export const PostCard = ({ post }: { post: Post }) => {
       category,
       description,
       imageUrl,
+      likes: actualPost.likes,
       createdAt: actualPost.createdAt,
       author: actualPost.author,
     });
@@ -180,22 +189,26 @@ export const PostCard = ({ post }: { post: Post }) => {
                 <p className="text-sm text-right">
                   {new Date(actualPost.createdAt).toLocaleDateString()}
                 </p>
-                {session?.user.isAdmin &&
-                actualPost.author.id === session?.user.id ? (
-                  <div className="flex gap-1 mt-1">
-                    <Link href={"/"}>
-                      <Button
-                        variant="destructive"
-                        onClick={() => handleDelete(actualPost.id)}
-                      >
-                        <CircleX />
+                <div className="flex justify-end gap-1 mt-1">
+                  {" "}
+                  {session?.user.isAdmin &&
+                  actualPost.author.id === session?.user.id ? (
+                    <>
+                      <Link href={"/"}>
+                        <Button
+                          variant="destructive"
+                          onClick={() => handleDelete(actualPost.id)}
+                        >
+                          <CircleX />
+                        </Button>
+                      </Link>
+                      <Button onClick={() => setIsEditing(true)}>
+                        <Pencil />
                       </Button>
-                    </Link>
-                    <Button onClick={() => setIsEditing(true)}>
-                      <Pencil />
-                    </Button>
-                  </div>
-                ) : null}
+                    </>
+                  ) : null}
+                  <LikeButton post={actualPost} />
+                </div>
               </div>
             </div>
           </div>
