@@ -40,10 +40,11 @@ export const PostDisplayer = () => {
 
   useEffect(() => {
     refreshPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    let filteredPosts =
+    const filteredPosts =
       categories === "All"
         ? [...posts] // Prend tous les posts si "All"
         : posts.filter((post) => post.category === categories);
@@ -57,7 +58,7 @@ export const PostDisplayer = () => {
     }
 
     setSortedPosts(filteredPosts);
-  }, [posts, categories, sortBy, refreshPosts]);
+  }, [posts, categories, sortBy]);
 
   return (
     <div className="flex flex-col items-center gap-4 py-4 mt-4">
